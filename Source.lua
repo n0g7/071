@@ -335,7 +335,7 @@ local Visuals = Window:Tab({Title = "Visuais", Icon = "eye"}) do
     Visuals:Dropdown({
         Title = "Shaders",
         Desc = "Selecionar preset de shaders",
-        List = {"Nenhum", "Shaders v1", "Shaders v2"},
+        List = {"Nenhum", "Shaders v1", "Shaders v2", "Shaders v3"},
         Value = "Nenhum",
         Callback = function(value)
             if value == "Shaders v1" then
@@ -576,12 +576,125 @@ local Visuals = Window:Tab({Title = "Visuais", Icon = "eye"}) do
                 L.ShadowSoftness = 0
                 L.Ambient = Color3.fromRGB(59, 33, 27)
                 Window:Notify({Title = "Visuais", Desc = "Shaders v2 ativados!", Time = 2})
+            elseif value == "Shaders v3" then
+                -- Advanced Detailed Shaders v3
+                if not game:IsLoaded() then
+                    game.Loaded:Wait()
+                end
+
+                -- Multiple Bloom Effects for layered glow
+                local Bloom1 = Instance.new("BloomEffect")
+                Bloom1.Intensity = 0.15
+                Bloom1.Threshold = 0.1
+                Bloom1.Size = 120
+                Bloom1.Parent = game:GetService("Lighting")
+
+                local Bloom2 = Instance.new("BloomEffect")
+                Bloom2.Intensity = 0.25
+                Bloom2.Threshold = 0.3
+                Bloom2.Size = 80
+                Bloom2.Parent = game:GetService("Lighting")
+
+                local Bloom3 = Instance.new("BloomEffect")
+                Bloom3.Intensity = 0.05
+                Bloom3.Threshold = 0.5
+                Bloom3.Size = 50
+                Bloom3.Parent = game:GetService("Lighting")
+
+                -- Depth of Field for cinematic blur
+                local DoF = Instance.new("DepthOfFieldEffect")
+                DoF.FarIntensity = 0.3
+                DoF.FocusDistance = 50
+                DoF.InFocusRadius = 20
+                DoF.NearIntensity = 0.1
+                DoF.Parent = game:GetService("Lighting")
+
+                -- Multiple Blur Effects
+                local Blur1 = Instance.new("BlurEffect")
+                Blur1.Size = 1.5
+                Blur1.Parent = game:GetService("Lighting")
+
+                local Blur2 = Instance.new("BlurEffect")
+                Blur2.Name = "SecondaryBlur"
+                Blur2.Enabled = false
+                Blur2.Size = 3
+                Blur2.Parent = game:GetService("Lighting")
+
+                -- Enhanced Color Corrections
+                local CC1 = Instance.new("ColorCorrectionEffect")
+                CC1.Name = "PrimaryCC"
+                CC1.Brightness = 0.1
+                CC1.Contrast = 0.2
+                CC1.Saturation = 0.1
+                CC1.TintColor = Color3.fromRGB(250, 230, 210)
+                CC1.Parent = game:GetService("Lighting")
+
+                local CC2 = Instance.new("ColorCorrectionEffect")
+                CC2.Name = "SecondaryCC"
+                CC2.Brightness = -0.05
+                CC2.Contrast = 0.15
+                CC2.Saturation = -0.1
+                CC2.TintColor = Color3.fromRGB(220, 200, 180)
+                CC2.Parent = game:GetService("Lighting")
+
+                local CC3 = Instance.new("ColorCorrectionEffect")
+                CC3.Name = "TertiaryCC"
+                CC3.Enabled = false
+                CC3.Brightness = 0.05
+                CC3.Contrast = -0.1
+                CC3.Saturation = 0.2
+                CC3.TintColor = Color3.fromRGB(255, 240, 220)
+                CC3.Parent = game:GetService("Lighting")
+
+                -- Sun Rays with varying intensities
+                local SunRays1 = Instance.new("SunRaysEffect")
+                SunRays1.Intensity = 0.08
+                SunRays1.Spread = 0.5
+                SunRays1.Parent = game:GetService("Lighting")
+
+                local SunRays2 = Instance.new("SunRaysEffect")
+                SunRays2.Name = "SecondarySunRays"
+                SunRays2.Intensity = 0.03
+                SunRays2.Spread = 0.8
+                SunRays2.Parent = game:GetService("Lighting")
+
+                -- Custom Skybox
+                local CustomSky = Instance.new("Sky")
+                CustomSky.Name = "CustomSkyV3"
+                CustomSky.SkyboxUp = "rbxassetid://600830446"
+                CustomSky.SkyboxLf = "rbxassetid://600831635"
+                CustomSky.SkyboxBk = "rbxassetid://600832720"
+                CustomSky.SkyboxFt = "rbxassetid://600830446"
+                CustomSky.SkyboxDn = "rbxassetid://600835177"
+                CustomSky.SkyboxRt = "rbxassetid://600833862"
+                CustomSky.CelestialBodiesShown = true
+                CustomSky.StarCount = 3000
+                CustomSky.Parent = game:GetService("Lighting")
+
+                -- Advanced Lighting Settings
+                local L = game:GetService("Lighting")
+                L.Brightness = 2.5
+                L.ColorShift_Bottom = Color3.fromRGB(20, 10, 30)
+                L.ColorShift_Top = Color3.fromRGB(255, 150, 50)
+                L.OutdoorAmbient = Color3.fromRGB(50, 20, 60)
+                L.ClockTime = 7.0
+                L.FogColor = Color3.fromRGB(120, 90, 130)
+                L.FogEnd = 1500
+                L.FogStart = 100
+                L.ExposureCompensation = 0.3
+                L.ShadowSoftness = 0.2
+                L.Ambient = Color3.fromRGB(70, 40, 50)
+                L.GlobalShadows = true
+                L.EnvironmentDiffuseScale = 0.8
+                L.EnvironmentSpecularScale = 0.5
+
+                Window:Notify({Title = "Visuais", Desc = "Shaders v3 ativados!", Time = 2})
             else
                 local light = game.Lighting
                 local ter = workspace.Terrain
                 -- Destroy shader effects
                 for _, effect in ipairs(light:GetChildren()) do
-                    if effect:IsA("ColorCorrectionEffect") or effect:IsA("BloomEffect") or effect:IsA("SunRaysEffect") or effect:IsA("BlurEffect") then
+                    if effect:IsA("ColorCorrectionEffect") or effect:IsA("BloomEffect") or effect:IsA("SunRaysEffect") or effect:IsA("BlurEffect") or effect:IsA("DepthOfFieldEffect") then
                         effect:Destroy()
                     end
                 end
@@ -1067,13 +1180,19 @@ local Target = Window:Tab({Title = "Target", Icon = "target"}) do
 
     Target:Textbox({
         Title = "Target Name",
-        Desc = "Digite o nome do jogador para target",
+        Desc = "Digite o nome de exibição do jogador para target",
         Value = "",
         Callback = function(value)
-            local player = Players:FindFirstChild(value)
-            if player then
-                targetedPlayer = player
-                Window:Notify({Title = "Alvo", Desc = "Alvo definido para " .. value, Time = 2})
+            local foundPlayer = nil
+            for _, player in ipairs(Players:GetPlayers()) do
+                if player.DisplayName == value then
+                    foundPlayer = player
+                    break
+                end
+            end
+            if foundPlayer then
+                targetedPlayer = foundPlayer
+                Window:Notify({Title = "Alvo", Desc = "Alvo definido para " .. foundPlayer.DisplayName .. " (" .. foundPlayer.Name .. ")", Time = 2})
             else
                 Window:Notify({Title = "Alvo", Desc = "Jogador não encontrado", Time = 2})
             end
@@ -1589,6 +1708,79 @@ local Exploit = Window:Tab({Title = "Explorar", Icon = "zap"}) do
                 if KeyUpFunction then KeyUpFunction:Disconnect() end
                 StopAnim()
                 Window:Notify({Title = "Explorar", Desc = "Fly desativado!", Time = 2})
+            end
+        end
+    })
+end
+
+-- Sons Tab
+local Sons = Window:Tab({Title = "Sons", Icon = "music"}) do
+    Sons:Section({Title = "Boombox"})
+
+    local boomboxTool = nil
+    local soundId = ""
+
+    Sons:Textbox({
+        Title = "ID da Música",
+        Desc = "Digite o ID do som do Roblox",
+        Value = "",
+        Callback = function(value)
+            soundId = value
+        end
+    })
+
+    Sons:Button({
+        Title = "Equipar Boombox",
+        Desc = "Equipa uma boombox na mão",
+        Callback = function()
+            if boomboxTool then boomboxTool:Destroy() end
+            boomboxTool = Instance.new("Tool")
+            boomboxTool.Name = "Boombox"
+            boomboxTool.RequiresHandle = true
+            local handle = Instance.new("Part")
+            handle.Name = "Handle"
+            handle.Size = Vector3.new(1, 1, 1)
+            handle.Anchored = false
+            handle.CanCollide = false
+            handle.Transparency = 1
+            handle.Parent = boomboxTool
+            local sound = Instance.new("Sound")
+            sound.Name = "Music"
+            sound.Volume = 10
+            sound.Looped = true
+            sound.Parent = handle
+            boomboxTool.Parent = plr.Backpack
+            Window:Notify({Title = "Sons", Desc = "Boombox equipada!", Time = 2})
+        end
+    })
+
+    Sons:Button({
+        Title = "Tocar Música",
+        Desc = "Toca a música para todos ouvirem",
+        Callback = function()
+            if boomboxTool and boomboxTool.Handle then
+                local sound = boomboxTool.Handle:FindFirstChild("Music")
+                if sound and soundId ~= "" then
+                    sound.SoundId = "rbxassetid://" .. soundId
+                    sound:Play()
+                    Window:Notify({Title = "Sons", Desc = "Música tocando!", Time = 2})
+                else
+                    Window:Notify({Title = "Sons", Desc = "ID inválido ou boombox não equipada!", Time = 2})
+                end
+            end
+        end
+    })
+
+    Sons:Button({
+        Title = "Pausar Música",
+        Desc = "Pausa a música",
+        Callback = function()
+            if boomboxTool and boomboxTool.Handle then
+                local sound = boomboxTool.Handle:FindFirstChild("Music")
+                if sound then
+                    sound:Pause()
+                    Window:Notify({Title = "Sons", Desc = "Música pausada!", Time = 2})
+                end
             end
         end
     })
